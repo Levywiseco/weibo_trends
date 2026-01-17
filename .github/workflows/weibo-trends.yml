@@ -1,0 +1,128 @@
+# 微博热搜趋势分析器 - GitHub Actions 定时执行工作流
+# 使用 Claude Agent SDK 进行智能分析
+
+name: 微博热搜趋势分析
+
+on:
+  # 定时触发 - 每天早上8点和晚上8点执行 (UTC时间，北京时间+8小时)
+  schedule:
+    - cron: '0 0 * * *'   # UTC 00:00 = 北京时间 08:00
+    - cron: '0 12 * * *'  # UTC 12:00 = 北京时间 20:00
+  
+  # 手动触发
+  workflow_dispatch:
+    inputs:
+      hotspot_count:
+        description: '分析热搜数量'
+        required: false
+        default: '10'
+      use_claude:
+        description: '使用Claude智能分析'
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+env:
+  PYTHON_VERSION: '3.11'
+  REPORTS_DIR: 'reports'
+
+jobs:
+  analyze-trends:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write  # 允许提交报告到仓库
+    
+    steps:
+      # 1. 检出代码
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      # 2. 设置 Python 环境
+      - name: 设置 Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      
+      # 3. 安装依赖
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      # 4. 创建报告目录
+      - name: 创建报告目录
+        run: mkdir -p ${{ env.REPORTS_DIR }}
+      
+      # 5. 运行微博热搜分析（使用Claude Agent SDK）
+      - name: 运行微博热搜分析
+        env:
+          TIANAPI_KEY: ${{ secrets.TIANAPI_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          HOTSPOT_COUNT: ${{ github.event.inputs.hotspot_count || '10' }}
+          USE_CLAUDE: ${{ github.event.inputs.use_claude || 'true' }}
+        run: |
+          python src/weibo_trends_analyzer.py \
+            --number $HOTSPOT_COUNT \
+            --output ${{ env.REPORTS_DIR }}/report_$(date +%Y%m%d_%H%M%S).md \
+            --use-claude $USE_CLAUDE
+      
+      # 6. 生成摘要
+      - name: 生成工作流摘要
+        run: |
+          echo "## 🔥 微博热搜分析完成" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**执行时间**: $(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S') (北京时间)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 最新报告" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          # 显示最新报告内容
+          LATEST_REPORT=$(ls -t ${{ env.REPORTS_DIR }}/report_*.md 2>/dev/null | head -1)
+          if [ -f "$LATEST_REPORT" ]; then
+            cat "$LATEST_REPORT" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      # 7. 提交报告到仓库
+      - name: 提交报告到仓库
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add ${{ env.REPORTS_DIR }}/
+          
+          # 检查是否有变更
+          if git diff --staged --quiet; then
+            echo "没有新的报告需要提交"
+          else
+            git commit -m "📊 自动更新微博热搜分析报告 - $(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M')"
+            git push
+          fi
+      
+      # 8. 上传报告作为 Artifact（可选，保留30天）
+      - name: 上传报告 Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: weibo-trends-report-${{ github.run_number }}
+          path: ${{ env.REPORTS_DIR }}/
+          retention-days: 30
+
+  # 可选：发送通知 Job
+  notify:
+    needs: analyze-trends
+    runs-on: ubuntu-latest
+    if: ${{ always() && needs.analyze-trends.result != 'cancelled' }}
+    
+    steps:
+      - name: 发送执行结果通知
+        run: |
+          if [ "${{ needs.analyze-trends.result }}" == "success" ]; then
+            echo "✅ 微博热搜分析成功完成！"
+          else
+            echo "❌ 微博热搜分析执行失败，请检查日志。"
+          fi
+          # 这里可以添加钉钉、企业微信、邮件等通知逻辑
