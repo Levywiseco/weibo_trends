@@ -22,10 +22,14 @@
 
 需要配置的 Secrets：
 
-| Secret 名称 | 说明 | 必需 |
-|------------|------|------|
-| `TIANAPI_KEY` | 天API密钥 | ✅ 是 |
-| `ANTHROPIC_API_KEY` | Claude API密钥 | ⭐ 推荐 |
+| Secret 名称 | 说明 | 必需 | 默认值 |
+|------------|------|------|--------|
+| `TIANAPI_KEY` | 天API密钥 | ✅ 是 | - |
+| `ANTHROPIC_API_KEY` | Claude API密钥 | ⭐ 推荐 | - |
+| `CLAUDE_BASE_URL` | Claude API地址 | 可选 | `https://code.newcli.com/claude/aws` |
+| `CLAUDE_MODEL` | Claude 模型名称 | 可选 | `opus` |
+
+> 💡 **支持第三方Claude代理**：如果使用第三方API服务，配置 `CLAUDE_BASE_URL` 和 `CLAUDE_MODEL` 即可。
 
 ### 3. 启用 Actions
 
@@ -71,6 +75,8 @@ pip install -r requirements.txt
 # 设置环境变量
 export TIANAPI_KEY="your_tianapi_key"
 export ANTHROPIC_API_KEY="your_anthropic_key"
+export CLAUDE_BASE_URL="https://code.newcli.com/claude/aws"  # 可选，第三方API
+export CLAUDE_MODEL="opus"  # 可选，模型名称
 
 # 运行分析
 python src/weibo_trends_analyzer.py -n 10 -o reports/test.md

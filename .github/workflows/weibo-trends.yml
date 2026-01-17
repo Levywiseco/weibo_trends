@@ -65,6 +65,8 @@ jobs:
         env:
           TIANAPI_KEY: ${{ secrets.TIANAPI_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_BASE_URL: ${{ secrets.CLAUDE_BASE_URL || 'https://code.newcli.com/claude/aws' }}
+          CLAUDE_MODEL: ${{ secrets.CLAUDE_MODEL || 'opus' }}
           HOTSPOT_COUNT: ${{ github.event.inputs.hotspot_count || '10' }}
           USE_CLAUDE: ${{ github.event.inputs.use_claude || 'true' }}
         run: |

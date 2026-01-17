@@ -40,6 +40,10 @@ class WeiboTrendsAnalyzer:
         self.tianapi_key = tianapi_key or os.environ.get('TIANAPI_KEY')
         self.anthropic_key = anthropic_key or os.environ.get('ANTHROPIC_API_KEY')
         
+        # Claude API 配置（支持第三方代理）
+        self.claude_base_url = os.environ.get('CLAUDE_BASE_URL', 'https://code.newcli.com/claude/aws')
+        self.claude_model = os.environ.get('CLAUDE_MODEL', 'opus')
+        
         if not self.tianapi_key:
             raise ValueError("❌ 未找到天API密钥！请设置 TIANAPI_KEY 环境变量或通过参数传入")
         
@@ -47,12 +51,17 @@ class WeiboTrendsAnalyzer:
         self.hotspots: List[Dict] = []
         self.analysis_results: List[Dict] = []
         
-        # 初始化 Claude 客户端
+        # 初始化 Claude 客户端（支持自定义base_url）
         self.claude_client = None
         if CLAUDE_AVAILABLE and self.anthropic_key:
             try:
-                self.claude_client = anthropic.Anthropic(api_key=self.anthropic_key)
-                print("✅ Claude Agent SDK 已初始化")
+                self.claude_client = anthropic.Anthropic(
+                    api_key=self.anthropic_key,
+                    base_url=self.claude_base_url
+                )
+                print(f"✅ Claude Agent SDK 已初始化")
+                print(f"   API地址: {self.claude_base_url}")
+                print(f"   模型: {self.claude_model}")
             except Exception as e:
                 print(f"⚠️ Claude 初始化失败: {e}")
     
@@ -144,7 +153,7 @@ class WeiboTrendsAnalyzer:
 
         try:
             message = self.claude_client.messages.create(
-                model="claude-sonnet-4-20250514",
+                model=self.claude_model,
                 max_tokens=4096,
                 messages=[
                     {"role": "user", "content": prompt}
