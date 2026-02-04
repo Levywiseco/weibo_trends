@@ -9,6 +9,7 @@
 
 import argparse
 import os
+import random
 import sys
 from datetime import datetime
 from typing import List, Dict, Optional
@@ -272,8 +273,6 @@ class WeiboTrendsAnalyzer:
     
     def analyze_hotspot_basic(self, title: str, heat: int) -> Dict:
         """基础分析单个热点（不使用Claude时的备选方案）- 使用创意思维模板"""
-        import random
-        
         # 扩充的创意模板库 - 基于跨界融合和创新思维
         idea_templates = {
             # 安全类 - 跨界IoT硬件
@@ -333,7 +332,7 @@ class WeiboTrendsAnalyzer:
                 "score": 84
             },
             # 数码消费 - 极端用户法（匹配手机品牌和苹果+数字的组合）
-            r"手机|小米|华为|iPhone|数码|电脑|平板|荣耀|vivo|OPPO|苹果\d|苹果手机|苹果发布|苹果新品": {
+            "手机|小米|华为|iPhone|数码|电脑|平板|荣耀|vivo|OPPO|苹果\\d|苹果手机|苹果发布|苹果新品": {
                 "category": "消费电子",
                 "sentiment": "中性",
                 "name": "「数码遗嘱」设备传承服务",
