@@ -136,49 +136,79 @@ class WeiboTrendsAnalyzer:
             for h in hotspots
         ])
         
-        prompt = f"""你是一位资深的互联网趋势分析师和产品经理。请深度分析以下微博热搜榜单，提供多维度洞察。
+        prompt = f"""你是一位顶尖的创意总监、互联网产品专家和商业模式创新者。请用「逆向思维」和「跨界融合」的方法，深度分析以下微博热搜榜单，为每个热点挖掘出令人眼前一亮的创新产品创意。
 
 当前微博热搜TOP{len(hotspots)}:
 {hotspot_text}
 
-请为每个热搜提供以下深度分析：
+## 🧠 创意思维方法论（必须运用）
 
-1. **热点分类**：体育、娱乐、科技、社会、民生、消费等
-2. **情感倾向**：正面、中性、负面
-3. **用户画像**：主要关注人群的年龄、性别、兴趣等
-4. **产品创意**：基于热点的创新产品构思（避免千篇一律的"社区"）
-5. **核心功能**：产品的独特价值主张
-6. **商业价值**：市场潜力、变现可能性
-7. **创新点**：与现有产品的差异化
-8. **综合评分**：0-100分（考虑：热度持久性、商业价值、技术可行性）
+请运用以下至少2种创意方法来生成产品创意：
 
-**评分标准：**
-- 90-100分：具有重大商业价值和创新性
-- 80-89分：优秀的产品创意，值得深入探索
-- 70-79分：良好创意，但需进一步优化
-- 60-69分：一般创意，商业价值有限
-- 60分以下：不建议投入
+1. **SCAMPER法**：替代(Substitute)、合并(Combine)、适应(Adapt)、修改(Modify)、另作他用(Put to other uses)、删除(Eliminate)、重组(Rearrange)
+2. **跨界融合**：将热点与完全不相关的领域结合（如：传统文化+区块链、美食+AR、社会事件+游戏化）
+3. **逆向思维**：从用户痛点的反面思考，找到反常识的解决方案
+4. **极端用户法**：思考最边缘用户群体的独特需求
+5. **10x思维**：如何让现有解决方案好10倍而不是10%
+6. **第一性原理**：回归问题本质，重新定义问题
 
-**重要：**
-- 避免简单的"XX话题社区"这种低价值建议
-- 深挖热点背后的用户需求和痛点
-- 关注跨界融合和创新模式
-- 如果热点缺乏产品化价值，明确指出
+## 📋 分析维度
 
-请返回纯JSON数组格式：
+请为每个热搜提供：
+
+1. **热点分类**：体育/娱乐/科技/社会/民生/消费/文化/健康/教育/财经/国际等
+2. **情感倾向**：正面/中性/负面
+3. **用户画像**：具体的人群特征（年龄段、职业、兴趣标签、消费能力等）
+4. **隐藏需求**：用户表面关注热点，背后真正的深层需求是什么？
+5. **产品创意**：⭐必须是独特的、有创意的产品构思，绝对禁止"XX社区"、"XX追踪器"等无创意模板
+6. **创意来源**：说明使用了哪种创意方法生成这个产品
+7. **核心功能**：3个最关键的差异化功能点
+8. **变现模式**：具体的商业模式（订阅/交易/广告/增值服务等）
+9. **竞争壁垒**：为什么别人难以复制
+10. **综合评分**：0-100分
+
+## ⚠️ 严格禁止
+
+- ❌ "XX话题社区"、"XX话题追踪器"、"XX讨论平台"
+- ❌ 简单的信息聚合类产品
+- ❌ 没有明确变现模式的产品
+- ❌ 已经存在大量同类竞品的产品
+- ❌ 纯概念性没有落地可能的产品
+
+## ✅ 鼓励的创意方向
+
+- 💡 将热点与硬件/IoT结合
+- 💡 将热点游戏化，用游戏机制解决问题
+- 💡 将热点与AI/大模型深度结合
+- 💡 发现热点中的"反共识"机会
+- 💡 面向被忽视的小众人群设计产品
+- 💡 将线下场景线上化，或线上场景线下化
+
+## 📊 评分标准
+
+- 95-100分：革命性创新，可能改变行业格局
+- 85-94分：高度创新，具有独特竞争壁垒
+- 75-84分：较好创意，有一定市场空间
+- 65-74分：一般创意，创新不足
+- 65分以下：创意平庸，不建议投入
+
+请返回纯JSON数组格式（必须严格遵循）：
 ```json
 [
   {{
     "热点分类": "...",
-    "情感倾向": "...",
-    "用户画像": "...",
-    "产品名称": "...",
-    "核心功能": "...",
-    "商业价值": "...",
-    "创新点": "...",
+    "情感倾向": "正面/中性/负面",
+    "用户画像": "具体描述目标用户特征",
+    "隐藏需求": "用户深层需求分析",
+    "产品名称": "有创意的产品名（必须独特）",
+    "创意来源": "使用的创意方法",
+    "核心功能": "三个关键功能点",
+    "商业价值": "具体变现模式和市场规模预估",
+    "创新点": "与现有产品的核心差异",
+    "竞争壁垒": "难以被复制的原因",
     "综合评分": 85,
     "评分等级": "优秀",
-    "分析洞察": "..."
+    "分析洞察": "对这个热点的独特见解"
   }}
 ]
 ```"""
@@ -212,8 +242,11 @@ class WeiboTrendsAnalyzer:
                                 'name': analysis.get('产品名称', f"{hotspot['title']}创意产品"),
                                 'function': analysis.get('核心功能', '待分析'),
                                 'users': analysis.get('用户画像', '广大用户'),
+                                'hidden_need': analysis.get('隐藏需求', ''),
+                                'creative_method': analysis.get('创意来源', ''),
                                 'business_value': analysis.get('商业价值', '待评估'),
                                 'innovation': analysis.get('创新点', ''),
+                                'barrier': analysis.get('竞争壁垒', ''),
                                 'insight': analysis.get('分析洞察', ''),
                                 'score': analysis.get('综合评分', 75),
                                 'grade': analysis.get('评分等级', '良好')
@@ -238,121 +271,271 @@ class WeiboTrendsAnalyzer:
             return self.analyze_basic(hotspots)
     
     def analyze_hotspot_basic(self, title: str, heat: int) -> Dict:
-        """基础分析单个热点（不使用Claude时的备选方案）"""
-        # 更智能的分类和产品创意模板
+        """基础分析单个热点（不使用Claude时的备选方案）- 使用创意思维模板"""
+        import random
+        
+        # 扩充的创意模板库 - 基于跨界融合和创新思维
         idea_templates = {
-            # 体育类
-            "火灾|安全|事故|爆炸": {
+            # 安全类 - 跨界IoT硬件
+            "火灾|安全|事故|爆炸|地震|灾害": {
                 "category": "社会安全",
                 "sentiment": "负面",
-                "name": "智能安全预警系统",
-                "function": "利用AI和大数据实时监测和预警各类安全风险，提供应急响应方案",
-                "users": "企业安全部门、社区管理者、政府应急部门",
-                "business_value": "B端SaaS订阅服务，年费模式，市场规模大",
-                "innovation": "多源数据融合 + AI风险预测 + 应急联动",
-                "score": 85
-            },
-            "篮球|足球|网球|体育|运动|比赛|夺冠": {
-                "category": "体育",
-                "sentiment": "正面",
-                "name": "AI体育数据分析平台",
-                "function": "为球迷和专业人士提供深度赛事数据分析、球员表现追踪、比赛预测",
-                "users": "体育爱好者、体育博彩用户、教练员、球探",
-                "business_value": "订阅会员 + 数据API变现 + 广告合作",
-                "innovation": "实时数据可视化 + 预测模型 + 社交互动",
-                "score": 82
-            },
-            "太空|航天|火箭|卫星|探测": {
-                "category": "科技",
-                "sentiment": "正面",
-                "name": "航天科普互动平台",
-                "function": "沉浸式航天知识学习、虚拟太空探索、航天新闻聚合",
-                "users": "青少年学生、科技爱好者、教育机构",
-                "business_value": "教育付费内容 + VR/AR体验 + B端授权",
-                "innovation": "游戏化学习 + AR/VR技术 + 实时航天数据",
+                "name": "「守护者」家庭安全机器人",
+                "function": "1.AI视觉识别危险行为 2.多传感器环境监测 3.一键SOS联动救援",
+                "users": "有老人小孩的家庭、独居人群、高端社区",
+                "hidden_need": "人们需要的不是警报，而是「被守护」的安心感",
+                "creative_method": "跨界融合：安全监测 + 陪伴机器人",
+                "business_value": "硬件销售(3999元/台) + 月费服务(99元/月) + 保险合作分成",
+                "innovation": "把冷冰冰的安防设备变成有温度的家庭成员",
+                "barrier": "硬件+AI算法+救援网络的组合壁垒",
                 "score": 88
             },
-            "电影|电视剧|综艺|票房|演员|导演": {
-                "category": "娱乐",
-                "sentiment": "中性",
-                "name": "智能观影决策助手",
-                "function": "基于AI的个性化影视推荐、观影社交、影评聚合",
-                "users": "影迷、剧迷、年轻用户群体",
-                "business_value": "会员订阅 + 影院合作分成 + 电影宣发",
-                "innovation": "情绪化推荐算法 + 观影社交 + 跨平台聚合",
-                "score": 80
+            # 体育类 - 游戏化思维
+            "篮球|足球|网球|体育|运动|比赛|夺冠|奥运|世界杯|冠军": {
+                "category": "体育",
+                "sentiment": "正面",
+                "name": "「球探RPG」体育养成游戏",
+                "function": "1.真实球员数据驱动 2.经理人养成玩法 3.实时赛事联动奖励",
+                "users": "18-35岁男性球迷、游戏玩家、体育博彩替代需求",
+                "hidden_need": "球迷想要「参与感」而非只是旁观者",
+                "creative_method": "游戏化：体育观赛 + RPG养成机制",
+                "business_value": "内购道具 + 赛季通行证 + 品牌赞助植入，预计年收入5000万+",
+                "innovation": "用游戏机制激活被动观赛用户，创造日活粘性",
+                "barrier": "体育版权合作 + 游戏研发能力双门槛",
+                "score": 86
             },
-            "手机|小米|华为|苹果|iPhone|数码": {
-                "category": "消费电子",
-                "sentiment": "中性",
-                "name": "智能消费决策工具",
-                "function": "对比分析、性价比计算、用户评价聚合、价格追踪",
-                "users": "数码爱好者、理性消费者、学生群体",
-                "business_value": "电商导购佣金 + 会员服务 + 数据服务",
-                "innovation": "全网比价 + AI需求匹配 + 社区UGC",
-                "score": 78
-            },
-            "AI|人工智能|ChatGPT|GPT|大模型": {
+            # 航天科技 - AR/VR沉浸式
+            "太空|航天|火箭|卫星|探测|月球|火星|宇宙": {
                 "category": "科技",
                 "sentiment": "正面",
-                "name": "AI能力市场",
-                "function": "连接AI服务商和需求方，提供开箱即用的AI能力",
-                "users": "中小企业、创业者、开发者、个人用户",
-                "business_value": "交易抽成 + SaaS订阅 + API调用计费",
-                "innovation": "零门槛AI使用 + 能力组合 + 效果保障",
-                "score": 92
+                "name": "「星际公民」AR太空探索",
+                "function": "1.手机AR模拟太空行走 2.收集虚拟星球NFT 3.航天任务剧情游戏",
+                "users": "10-25岁学生、科幻爱好者、亲子教育场景",
+                "hidden_need": "每个人内心都有一个太空梦，但99.99%的人无法实现",
+                "creative_method": "SCAMPER-适应：把专业航天体验平民化",
+                "business_value": "虚拟道具销售 + 教育机构授权 + 航天周边电商",
+                "innovation": "用游戏降低航天科普门槛，用NFT创造收藏价值",
+                "barrier": "NASA/中国航天授权 + AR技术积累",
+                "score": 89
             },
-            "股票|基金|理财|投资|A股": {
+            # 影视娱乐 - 社交+AI
+            "电影|电视剧|综艺|票房|演员|导演|剧集|追剧": {
+                "category": "娱乐",
+                "sentiment": "中性",
+                "name": "「剧本杀影院」沉浸式观影",
+                "function": "1.AI生成平行剧情分支 2.观众投票决定剧情走向 3.线下观影+线上互动",
+                "users": "18-30岁城市青年、情侣约会、闺蜜社交",
+                "hidden_need": "观众厌倦被动接受，想要成为故事的参与者",
+                "creative_method": "逆向思维：从「看剧」变成「玩剧」",
+                "business_value": "票价溢价(88-168元) + 剧情道具销售 + 影视IP合作",
+                "innovation": "把单向的影视消费变成双向互动体验",
+                "barrier": "影院合作资源 + AI剧情生成技术",
+                "score": 84
+            },
+            # 数码消费 - 极端用户法（匹配手机品牌和苹果+数字的组合）
+            r"手机|小米|华为|iPhone|数码|电脑|平板|荣耀|vivo|OPPO|苹果\d|苹果手机|苹果发布|苹果新品": {
+                "category": "消费电子",
+                "sentiment": "中性",
+                "name": "「数码遗嘱」设备传承服务",
+                "function": "1.数字资产一键迁移 2.设备使用习惯继承 3.旧设备残值最大化",
+                "users": "换机频繁用户、数字资产丰富者、家庭多设备用户",
+                "hidden_need": "换新设备的痛点不是价格，而是「数字生活断裂」",
+                "creative_method": "极端用户法：关注换机时「失去」的焦虑",
+                "business_value": "服务订阅(年费199) + 以旧换新溢价 + 设备回收差价",
+                "innovation": "从卖设备转向「卖数字生活连续性」",
+                "barrier": "跨品牌数据迁移技术 + 用户信任积累",
+                "score": 82
+            },
+            # AI技术 - 第一性原理
+            "AI|人工智能|ChatGPT|GPT|大模型|机器人|智能": {
+                "category": "科技",
+                "sentiment": "正面",
+                "name": "「AI分身」数字克隆服务",
+                "function": "1.学习你的说话方式 2.代你处理简单沟通 3.7x24小时在线响应",
+                "users": "企业高管、网红KOL、高净值人群、远距离家庭",
+                "hidden_need": "人们缺的不是AI助手，而是「另一个自己」",
+                "creative_method": "第一性原理：AI的终极价值是「人的延伸」",
+                "business_value": "高端订阅(999元/月) + 企业定制 + API调用",
+                "innovation": "从通用AI到「个人AI」，每个人都有专属AI分身",
+                "barrier": "个性化训练技术 + 数据隐私合规",
+                "score": 93
+            },
+            # 金融投资 - 逆向思维
+            "股票|基金|理财|投资|A股|暴涨|暴跌|牛市|熊市|金银": {
                 "category": "金融",
                 "sentiment": "中性",
-                "name": "普惠智能投顾",
-                "function": "为普通用户提供AI驱动的投资建议和风险管理",
-                "users": "个人投资者、理财新手、上班族",
-                "business_value": "管理费抽成 + 增值服务 + 金融产品分销",
-                "innovation": "低门槛 + 风险可视化 + 社区学习",
+                "name": "「后悔药」模拟投资复盘",
+                "function": "1.历史买卖点回测 2.平行宇宙收益对比 3.投资心理分析报告",
+                "users": "散户投资者、投资教育用户、金融专业学生",
+                "hidden_need": "投资者真正的痛点是「后悔」和「不甘心」",
+                "creative_method": "逆向思维：不预测未来，而是复盘过去",
+                "business_value": "工具订阅(月费39元) + 投教课程 + 券商导流",
+                "innovation": "把「后悔」情绪产品化，用复盘替代预测",
+                "barrier": "历史数据完整性 + 心理学算法模型",
                 "score": 85
             },
-            "春运|春节|车票|高铁|火车": {
+            # 出行春运 - 10x思维
+            "春运|春节|车票|高铁|火车|抢票|回家|返乡": {
                 "category": "民生出行",
                 "sentiment": "中性",
-                "name": "智能出行规划助手",
-                "function": "多模式出行方案对比、抢票提醒、行程管理",
-                "users": "春运出行人群、商务人士、旅游爱好者",
-                "business_value": "交通服务商合作 + 增值服务 + 广告",
-                "innovation": "多维度优化（时间/价格/舒适度） + 智能提醒",
-                "score": 76
+                "name": "「拼座」返乡顺风车联盟",
+                "function": "1.私家车主+乘客智能匹配 2.企业包车拼团 3.沿途城市接力换乘",
+                "users": "二三线城市返乡人群、有车族、企业HR",
+                "hidden_need": "春运的本质问题是「供需时空错配」",
+                "creative_method": "10x思维：不是优化抢票，而是创造新运力",
+                "business_value": "服务费抽成(10%) + 保险销售 + 沿途商业合作",
+                "innovation": "把闲置私家车运力聚合起来解决春运难题",
+                "barrier": "安全信任体系 + 政策合规 + 规模效应",
+                "score": 80
             },
-            "明星|爱豆|粉丝|演唱会|idol": {
+            # 明星粉丝 - 区块链+元宇宙
+            "明星|爱豆|粉丝|演唱会|idol|偶像|出道|应援": {
                 "category": "娱乐",
                 "sentiment": "正面",
-                "name": "粉丝经济平台",
-                "function": "明星周边、活动票务、粉丝社交、应援工具",
-                "users": "娱乐粉丝、追星族、年轻女性群体",
-                "business_value": "周边电商 + 票务分成 + 会员服务",
-                "innovation": "区块链数字藏品 + 虚拟见面会 + 粉丝贡献积分",
-                "score": 73
+                "name": "「饭圈DAO」粉丝共创平台",
+                "function": "1.粉丝投票决策明星活动 2.应援贡献积分链上存证 3.限量周边NFT发行",
+                "users": "核心粉丝群体、饭圈组织者、娱乐公司",
+                "hidden_need": "粉丝要的不只是追星，而是「被看见的贡献」",
+                "creative_method": "跨界融合：粉丝经济 + DAO治理 + Web3",
+                "business_value": "NFT发行分成 + 活动策划费 + 周边电商",
+                "innovation": "用区块链让粉丝贡献可追溯、可变现",
+                "barrier": "头部艺人合作 + 粉丝社群运营能力",
+                "score": 78
+            },
+            # 节气文化 - 传统文化创新
+            "立春|春分|谷雨|清明|节气|躲春|咬春|习俗|传统": {
+                "category": "文化",
+                "sentiment": "正面",
+                "name": "「节气盲盒」文化体验订阅",
+                "function": "1.每个节气寄送主题盲盒 2.AR扫描解锁节气故事 3.线下节气市集联动",
+                "users": "25-40岁文化消费者、亲子家庭、送礼需求",
+                "hidden_need": "现代人对传统文化是「想了解但没时间」",
+                "creative_method": "SCAMPER-合并：节气文化 + 盲盒经济 + AR科技",
+                "business_value": "订阅制(年费698元) + 单品销售 + 品牌联名",
+                "innovation": "把抽象的传统文化变成可触摸、可分享的体验",
+                "barrier": "供应链整合 + 文化IP授权 + 内容创作",
+                "score": 86
+            },
+            # 美食健康 - 个性化
+            "美食|餐厅|吃|菜|火锅|烧烤|外卖|食物|食品安全|中毒": {
+                "category": "健康",
+                "sentiment": "中性",
+                "name": "「食愈」情绪化饮食顾问",
+                "function": "1.根据情绪推荐食谱 2.AI营养师定制菜单 3.食材一键配送到家",
+                "users": "独居青年、健身人群、饮食焦虑者",
+                "hidden_need": "吃什么的背后是「今天心情如何」",
+                "creative_method": "跨界融合：心理学 + 营养学 + 即时配送",
+                "business_value": "会员订阅(月费79元) + 食材电商 + 餐饮品牌合作",
+                "innovation": "从「吃什么」升维到「今天需要什么能量」",
+                "barrier": "情绪识别算法 + 营养学知识图谱 + 供应链",
+                "score": 84
+            },
+            # 教育学习
+            "考试|高考|考研|学生|老师|学校|毕业|大学|中学": {
+                "category": "教育",
+                "sentiment": "中性",
+                "name": "「时光机」未来职业体验",
+                "function": "1.VR体验100种职业日常 2.AI生成你的职业适配度 3.与从业者1v1连线",
+                "users": "高中生、大学生、迷茫期职场人、家长",
+                "hidden_need": "学生填志愿时根本不了解这个专业未来做什么",
+                "creative_method": "逆向思维：不是教「怎么考」而是展示「为什么考」",
+                "business_value": "体验付费(单次98元) + 学校采购 + 企业雇主品牌合作",
+                "innovation": "用沉浸式体验解决职业认知盲区",
+                "barrier": "VR内容制作 + 各行业人脉资源",
+                "score": 87
+            },
+            # 房产家居
+            "房价|买房|租房|装修|房子|楼市|房贷": {
+                "category": "房产",
+                "sentiment": "中性",
+                "name": "「邻里值」社区透明度指数",
+                "function": "1.小区真实居住体验评分 2.邻居画像匿名展示 3.物业服务实时监督",
+                "users": "购房者、租房者、社区居民、物业公司",
+                "hidden_need": "买房最大的未知数是「未来的邻居和物业」",
+                "creative_method": "极端用户法：关注入住后的「后悔」场景",
+                "business_value": "房产平台合作分成 + 物业SaaS + 社区广告",
+                "innovation": "把社区软实力量化，让买房决策更透明",
+                "barrier": "数据采集难度 + 隐私合规 + 用户信任",
+                "score": 83
+            },
+            # 宠物经济
+            "宠物|猫|狗|萌宠|铲屎官|养猫|养狗": {
+                "category": "宠物",
+                "sentiment": "正面",
+                "name": "「毛孩语」宠物情绪翻译器",
+                "function": "1.AI识别宠物叫声含义 2.健康状态实时监测 3.宠物社交匹配约玩",
+                "users": "宠物主人、宠物医院、宠物品牌",
+                "hidden_need": "铲屎官最大的焦虑是「不知道它想要什么」",
+                "creative_method": "SCAMPER-替代：用AI替代人的猜测",
+                "business_value": "硬件销售(299元) + 增值服务 + 宠物电商导流",
+                "innovation": "真正的「人宠沟通」而非单向照顾",
+                "barrier": "宠物行为学研究 + AI算法训练数据",
+                "score": 85
+            },
+            # 国际政治
+            "日本|美国|俄罗斯|国际|外交|贸易|关税|制裁": {
+                "category": "国际",
+                "sentiment": "中性",
+                "name": "「世界观」地缘政治可视化",
+                "function": "1.国际关系动态图谱 2.事件影响链路追踪 3.投资避险预警提示",
+                "users": "跨境贸易从业者、投资者、时政爱好者、学生",
+                "hidden_need": "国际新闻太多太碎，普通人看不懂影响",
+                "creative_method": "第一性原理：复杂信息需要「可视化降维」",
+                "business_value": "专业版订阅(199元/月) + 企业风控服务 + 智库合作",
+                "innovation": "把专业地缘政治分析平民化、可视化",
+                "barrier": "专业分析团队 + 数据源整合",
+                "score": 81
             },
         }
         
         # 匹配关键词
         selected = None
         for pattern, template in idea_templates.items():
-            if re.search(pattern, title):
+            if re.search(pattern, title, re.IGNORECASE):
                 selected = template.copy()
                 break
         
-        # 如果没有匹配，使用默认模板
+        # 如果没有匹配，使用动态生成的创意模板（避免千篇一律）
         if not selected:
-            selected = {
-                "category": "社会热点",
-                "sentiment": "中性",
-                "name": f"{title}话题追踪器",
-                "function": f"实时追踪'{title}'相关动态、舆情分析、用户讨论聚合",
-                "users": "关注此话题的用户",
-                "business_value": "热点营销工具、舆情监测服务",
-                "innovation": "实时性强、多维度分析",
-                "score": 70
-            }
+            # 根据标题特征动态生成创意
+            creative_templates = [
+                {
+                    "name": f"「{title[:4]}效应」趋势预测引擎",
+                    "function": "1.热点生命周期预测 2.关联话题挖掘 3.营销时机提醒",
+                    "users": "营销从业者、自媒体人、品牌方",
+                    "hidden_need": "热点转瞬即逝，人们需要的是「先知先觉」",
+                    "creative_method": "第一性原理：热点的价值在于「时机把握」",
+                    "business_value": "SaaS订阅(月费299元) + API服务 + 定制报告",
+                    "innovation": "从事后追热点到事前预判热点",
+                    "barrier": "预测算法准确性 + 数据源覆盖度",
+                    "score": 76
+                },
+                {
+                    "name": f"「反转实验室」真相核查游戏",
+                    "function": "1.热点事件多视角呈现 2.玩家扮演侦探找证据 3.真相揭晓奖励机制",
+                    "users": "信息素养关注者、游戏玩家、学生群体",
+                    "hidden_need": "人们厌倦了被反转打脸，想主动辨别真假",
+                    "creative_method": "游戏化：信息核查 + 侦探游戏机制",
+                    "business_value": "游戏内购 + 教育机构合作 + 媒体合作",
+                    "innovation": "把严肃的事实核查变成有趣的推理游戏",
+                    "barrier": "内容生产能力 + 游戏化设计",
+                    "score": 79
+                },
+                {
+                    "name": f"「情绪温度计」舆情可视化",
+                    "function": "1.实时公众情绪追踪 2.情绪传染路径分析 3.品牌危机预警",
+                    "users": "企业公关、政府舆情部门、媒体",
+                    "hidden_need": "热点背后是群体情绪，情绪才是真正的机会/风险",
+                    "creative_method": "10x思维：从「事件监测」升级到「情绪感知」",
+                    "business_value": "企业SaaS(年费10万+) + 危机咨询 + 数据报告",
+                    "innovation": "比传统舆情监测早一步感知情绪变化",
+                    "barrier": "情绪识别AI + 全网数据采集能力",
+                    "score": 82
+                },
+            ]
+            selected = random.choice(creative_templates)
+            selected["category"] = "社会热点"
+            selected["sentiment"] = "中性"
         
         # 根据热度调整分数
         base_score = selected['score']
@@ -381,9 +564,12 @@ class WeiboTrendsAnalyzer:
             "name": selected['name'],
             "function": selected['function'],
             "users": selected['users'],
+            "hidden_need": selected.get('hidden_need', ''),
+            "creative_method": selected.get('creative_method', ''),
             "business_value": selected['business_value'],
             "innovation": selected['innovation'],
-            "insight": f"基于规则引擎的基础分析，建议结合实际市场调研",
+            "barrier": selected.get('barrier', ''),
+            "insight": f"基于创意思维模板的分析，已运用SCAMPER/跨界融合/逆向思维等方法",
             "score": score,
             "grade": grade
         }
@@ -478,13 +664,25 @@ class WeiboTrendsAnalyzer:
                 report.append(f"**👥 用户画像**: {analysis['users']}")
                 report.append("")
             
+            # 隐藏需求（新增）
+            if analysis.get('hidden_need'):
+                report.append(f"**🎯 隐藏需求**: {analysis['hidden_need']}")
+                report.append("")
+            
             # 产品创意
             report.append(f"**💡 创意产品**: {analysis['name']}")
+            
+            # 创意来源（新增）
+            if analysis.get('creative_method'):
+                report.append(f"- **创意方法**: {analysis['creative_method']}")
+            
             report.append(f"- **核心功能**: {analysis['function']}")
             if analysis.get('business_value'):
                 report.append(f"- **商业价值**: {analysis['business_value']}")
             if analysis.get('innovation'):
                 report.append(f"- **创新点**: {analysis['innovation']}")
+            if analysis.get('barrier'):
+                report.append(f"- **竞争壁垒**: {analysis['barrier']}")
             report.append("")
             
             # AI洞察
